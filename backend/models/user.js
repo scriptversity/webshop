@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+// import jwt from "jsonwebtoken";
+// import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,5 +34,20 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Encrypt password before saving user
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  // const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(parseInt(process.env.BCRYPT_SALT_ROUNDS));
+
+  this.password = await bcrypt.hash(this.password, salt);
+
+  // Alternative implementation
+  // this.password = await bcrypt.hash(this.password, 10);
+});
 
 export default mongoose.model("User", userSchema)
