@@ -1,24 +1,33 @@
 import Product from "../models/product.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import APIFilters from "../utils/apiFilters.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 
 // Get all Products   =>  /api/v1/products
 export const getProductsHandler = catchAsyncErrors(async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json(products);
+  // const apiFilters = new APIFilters(Product.find(), req.query)
 
-  res.status(500).json(error);
+  // with filtering
+  const apiFilters = new APIFilters(Product, req.query).search();
+
+  const products = await apiFilters.query;
+
+  const filteredProductsCount = products.length;
+
+  res.status(200).json({ filteredProductsCount, products });
+
+  // without filtering
+  // const products = await Product.find();
+  // res.status(200).json({ products });
 });
 
 // Create new product => /api/v1/admin/products
 export const newProductHandler = catchAsyncErrors(async (req, res) => {
   const product = await Product.create(req.body);
   res.status(201).json({
-    success: true,
+    // success: true,
     product,
   });
-
-  res.status(500).json(error);
 });
 
 // Get single product details   =>  /api/v1/products/:id
@@ -40,8 +49,6 @@ export const getProductDetailsHandler = catchAsyncErrors(
       // success: true,
       product,
     });
-
-    res.status(500).json(error);
   }
 );
 
@@ -72,8 +79,6 @@ export const updateProductHandler = catchAsyncErrors(async (req, res) => {
     success: true,
     updatedProduct,
   });
-
-  res.status(500).json(error);
 });
 
 // Delete product   =>  /api/v1/admin/products/:id
@@ -96,6 +101,4 @@ export const deleteProductHandler = catchAsyncErrors(async (req, res) => {
     // success: true,
     message: "Product is deleted",
   });
-
-  res.status(500).json(error);
 });

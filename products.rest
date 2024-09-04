@@ -1,6 +1,8 @@
 ### get all products
 GET http://localhost:4000/api/v1/products
 
+### get all products with keyword
+GET http://localhost:4000/api/v1/products?keyword=macbook
 ### create new product
 POST http://localhost:4000/api/v1/admin/products
 Content-Type: application/json
