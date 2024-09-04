@@ -5,6 +5,7 @@ import routes from "./routes/index.js";
 import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import { errorMiddleware } from "./middlewares/errors.js";
 
 // database connection
 connectDatabase();
@@ -17,8 +18,11 @@ app.use(cookieParser());
 
 app.use(routes);
 
+// Using error middleware
+app.use(errorMiddleware);
+
 app.listen(process.env.PORT, () => {
   console.log(
     `Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode.`
   );
-})
+});
