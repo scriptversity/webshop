@@ -1,9 +1,13 @@
 import express from "express";
 const app = express();
+import { connectDatabase } from "./config/dbConnect.js";
 import routes from "./routes/index.js";
 import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+
+// database connection
+connectDatabase();
 
 app.use(morgan("dev"));
 app.use(express.json());
