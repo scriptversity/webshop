@@ -12,6 +12,18 @@ export const errorMiddleware = function (err, req, res, next) {
   //   message: error.message,
   // });
 
+  // Handle Invalid Mongoose ID error
+  if (err.name === "CastError") {
+    const message = `Resource not found. Invalid: ${err?.path}`;
+    error = new ErrorHandler(message, 404);
+  }
+
+  // Handle Validation error
+  if (err.name === "ValidationError") {
+    const message = Object.values(err.errors).map((value) => value.message);
+    error = new ErrorHandler(message, 400);
+  }
+
   if (process.env.NODE_ENV === "DEVELOPMENT") {
     res.status(error.statusCode).json({
       message: error.message,
