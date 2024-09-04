@@ -20,8 +20,10 @@ APIFilters.prototype.search = function () {
 APIFilters.prototype.filters = function () {
   let queryCopy = Object.assign({}, this.queryStr);
 
+  //{keyword: 'apple',category: 'laptops', page: '2'}
+
   // Fields to remove
-  let fieldsToRemove = ["keyword", "page"];
+  const fieldsToRemove = ["keyword", "page"];
   fieldsToRemove.forEach(function (el) {
     delete queryCopy[el];
   });

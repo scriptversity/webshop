@@ -7,14 +7,21 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 export const getProductsHandler = catchAsyncErrors(async (req, res) => {
   // const apiFilters = new APIFilters(Product.find(), req.query)
 
+  const resPerPage = process.env.RESPERPAGE;
   // with filtering
-  const apiFilters = new APIFilters(Product, req.query).search();
+  const apiFilters = new APIFilters(Product, req.query).search().filters();
 
-  const products = await apiFilters.query;
+  let products = await apiFilters.query;
 
-  const filteredProductsCount = products.length;
+  let filteredProductsCount = products.length;
 
-  res.status(200).json({ filteredProductsCount, products });
+  apiFilters.pagination(resPerPage);
+  // products = await apiFilters.query;
+  products = await apiFilters.query.clone();
+
+  // filteredProductsCount = products.length;
+
+  res.status(200).json({ resPerPage, filteredProductsCount, products });
 
   // without filtering
   // const products = await Product.find();

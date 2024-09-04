@@ -3,6 +3,16 @@ GET http://localhost:4000/api/v1/products
 
 ### get all products with keyword
 GET http://localhost:4000/api/v1/products?keyword=macbook
+
+### get all products with a certain price
+GET http://localhost:4000/api/v1/products?price[gte]=100
+
+### get all products with a certain ratings
+GET http://localhost:4000/api/v1/products?ratings[gte]=4
+
+### get all products with a certain ratings
+GET http://localhost:4000/api/v1/products?page=2
+
 ### create new product
 POST http://localhost:4000/api/v1/admin/products
 Content-Type: application/json
