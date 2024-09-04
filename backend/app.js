@@ -6,6 +6,7 @@ import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./middlewares/errors.js";
+import { notFound } from "./utils/errorHandler.js";
 
 // database connection
 connectDatabase();
@@ -20,6 +21,9 @@ app.use(routes);
 
 // Using error middleware
 app.use(errorMiddleware);
+
+// Handle not found
+app.use(notFound);
 
 app.listen(process.env.PORT, () => {
   console.log(
