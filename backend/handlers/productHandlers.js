@@ -43,3 +43,33 @@ export const getProductDetailsHandler = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+// Update product details   =>  /api/v1/products/:id
+export const updateProductHandler = async (req, res) => {
+  try {
+    const product = await Product.findById(req?.params?.id);
+
+    if (!product) {
+      return res.status(404).json({
+        // success: false,
+        error: "Product not found",
+      });
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      updatedProduct,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

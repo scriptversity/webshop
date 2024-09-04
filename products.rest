@@ -21,3 +21,11 @@ Content-Type: application/json
 
 ### get product details
 GET http://localhost:4000/api/v1/products/66d89d4364489cec7710219e
+
+### update product details
+PUT http://localhost:4000/api/v1/products/66d89d4364489cec7710219e
+Content-Type: application/json
+
+{
+  "name": "SanDisk Ultra 128GB SDXC UHS-I Memory Card up to 100MB/s"
+}
