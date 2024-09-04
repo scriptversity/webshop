@@ -18,3 +18,6 @@ Content-Type: application/json
   "stock": 50,
   "numOfReviews": 32
 }
+
+### get product details
+GET http://localhost:4000/api/v1/products/66d89d4364489cec7710219e
