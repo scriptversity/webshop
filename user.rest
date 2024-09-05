@@ -29,10 +29,10 @@ Content-Type: application/json
 }
 
 ### reset password
-PUT http://localhost:4000/api/v1/password/reset/7d7974f49e1041134e490bf13520f4b6689bc6a0
+PUT http://localhost:4000/api/v1/password/reset/8801e381c5629e50ab898462ae2c6aee185df0b9
 Content-Type: application/json
 
 {
-  "password": "secret",
-  "confirmPassword": "secret"
+  "password": "123456",
+  "confirmPassword": "123456"
 }
