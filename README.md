@@ -1,1 +1,1 @@
-my shop developed using mern stack
+my shop developed with mern stack
