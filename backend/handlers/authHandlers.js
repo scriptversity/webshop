@@ -116,7 +116,7 @@ export const resetPasswordHandler = catchAsyncErrors(async (req, res, next) => {
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
-  
+
   if (!user) {
     return next(
       new ErrorHandler(
@@ -142,29 +142,33 @@ export const resetPasswordHandler = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get current user profile   =>  /api/v1/me
-export const getUserProfileHandler = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req?.user?._id);
-  res.status(200).json({
-    // success: true,
-    user,
-  });
-})
+export const getUserProfileHandler = catchAsyncErrors(
+  async (req, res, next) => {
+    const user = await User.findById(req?.user?._id);
+    res.status(200).json({
+      // success: true,
+      user,
+    });
+  }
+);
 
 // Update Password   =>  /api/v1/password/update
-export const updatePasswordHandler = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req?.user?._id).select("+password");
-  const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-  if (!isPasswordMatched) {
-    return next(new ErrorHandler("Old password is incorrect", 400));
-  }
-  user.password = req.body.password;
-  await user.save();
+export const updatePasswordHandler = catchAsyncErrors(
+  async (req, res, next) => {
+    const user = await User.findById(req?.user?._id).select("+password");
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Old password is incorrect", 400));
+    }
+    user.password = req.body.password;
+    await user.save();
 
-  res.status(200).json({
-    success: true,
-  })
-  // sendToken(user, 200, res);
-})
+    res.status(200).json({
+      success: true,
+    });
+    // sendToken(user, 200, res);
+  }
+);
 
 // Update user profile   =>  /api/v1/me/update
 export const updateProfileHandler = catchAsyncErrors(async (req, res, next) => {
@@ -182,25 +186,62 @@ export const updateProfileHandler = catchAsyncErrors(async (req, res, next) => {
     // success: true,
     user,
   });
-})
+});
 
-// Get all users   =>   /api/v1/admin/users
+// Get all users - Admin =>   /api/v1/admin/users
 export const allUsersHandler = catchAsyncErrors(async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({
     // success: true,
     users,
   });
-})
+});
 
-// Get user details   =>   /api/v1/admin/user/:id
-export const getUserDetailsHandler = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
-    return next(new ErrorHandler("User not found with this id", 404));
+// Get user details - Admin  =>   /api/v1/admin/users/:id
+export const getUserDetailsHandler = catchAsyncErrors(
+  async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("User not found with this id", 404));
+    }
+    res.status(200).json({
+      // success: true,
+      user,
+    });
   }
+);
+
+// Update User Details - Admin  =>  /api/v1/admin/users/:id
+export const updateUserHandler = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    // runValidators: true,
+    // useFindAndModify: false,
+  });
   res.status(200).json({
     // success: true,
     user,
   });
-})
+});
+
+// Delete User - Admin  =>  /api/v1/admin/users/:id
+export const deleteUserHandler = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(
+      new ErrorHandler("User not found with this id" + req.params.id, 404)
+    );
+  }
+  // TODO: Remove user avatar from cloudinary later
+
+  await user.deleteOne();
+  res.status(200).json({
+    success: true,
+    // message: "User deleted successfully",
+  });
+});

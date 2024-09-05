@@ -10,6 +10,8 @@ import {
   updateProfileHandler,
   getUserDetailsHandler,
   allUsersHandler,
+  deleteUserHandler,
+  updateUserHandler,
 } from "../handlers/authHandlers.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
@@ -25,7 +27,9 @@ router.route("/password/reset/:token").put(resetPasswordHandler);
 
 router.route("/me").get(isAuthenticatedUser, getUserProfileHandler);
 router.route("/me/update").put(isAuthenticatedUser, updateProfileHandler);
-router.route("/password/update").put(isAuthenticatedUser, updatePasswordHandler);
+router
+  .route("/password/update")
+  .put(isAuthenticatedUser, updatePasswordHandler);
 
 router
   .route("/admin/users")
@@ -33,6 +37,8 @@ router
 
 router
   .route("/admin/users/:id")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetailsHandler);
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetailsHandler)
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserHandler)
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUserHandler);
 
 export default router;
