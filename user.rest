@@ -57,3 +57,9 @@ Content-Type: application/json
   "email": "german@gmail.com",
   "name": "German"
 }
+
+### get all users(admin)
+GET http://localhost:4000/api/v1/admin/users
+
+### get user details(admin)
+GET http://localhost:4000/api/v1/admin/users/66d8eebab83da7e483021c5b

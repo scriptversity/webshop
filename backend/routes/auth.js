@@ -7,7 +7,9 @@ import {
   resetPasswordHandler,
   getUserProfileHandler,
   updatePasswordHandler,
-  updateProfileHandler
+  updateProfileHandler,
+  getUserDetailsHandler,
+  allUsersHandler,
 } from "../handlers/authHandlers.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
@@ -24,5 +26,13 @@ router.route("/password/reset/:token").put(resetPasswordHandler);
 router.route("/me").get(isAuthenticatedUser, getUserProfileHandler);
 router.route("/me/update").put(isAuthenticatedUser, updateProfileHandler);
 router.route("/password/update").put(isAuthenticatedUser, updatePasswordHandler);
+
+router
+  .route("/admin/users")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), allUsersHandler);
+
+router
+  .route("/admin/users/:id")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDetailsHandler);
 
 export default router;
