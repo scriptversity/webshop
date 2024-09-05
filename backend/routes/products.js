@@ -7,12 +7,24 @@ import {
   deleteProductHandler,
 } from "../handlers/productHandlers.js";
 
+import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
+
 const router = express.Router();
 
 router.route("/products").get(getProductsHandler);
-router.route("/admin/products").post(newProductHandler);
+
+router
+  .route("/admin/products")
+  .post(isAuthenticatedUser, authorizeRoles("admin"), newProductHandler);
+
 router.route("/products/:id").get(getProductDetailsHandler);
-router.route("/products/:id").put(updateProductHandler);
-router.route("/products/:id").delete(deleteProductHandler);
+
+router
+  .route("/admin/products/:id")
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateProductHandler);
+
+router
+  .route("/admin/products/:id")
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductHandler);
 
 export default router;

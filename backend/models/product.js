@@ -83,8 +83,8 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false,
-      // required: true,
+      required: true,
+      // required: false,
     },
     // createdAt: { // instead of timestamps
     //   type: Date,

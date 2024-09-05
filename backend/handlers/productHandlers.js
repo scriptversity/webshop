@@ -30,6 +30,7 @@ export const getProductsHandler = catchAsyncErrors(async (req, res) => {
 
 // Create new product => /api/v1/admin/products
 export const newProductHandler = catchAsyncErrors(async (req, res) => {
+  req.body.user = req.user._id;
   const product = await Product.create(req.body);
   res.status(201).json({
     // success: true,
