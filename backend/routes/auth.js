@@ -6,6 +6,7 @@ import {
   forgotPasswordHandler,
   resetPasswordHandler,
   getUserProfileHandler,
+  updatePasswordHandler
 } from "../handlers/authHandlers.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
@@ -20,5 +21,7 @@ router.route("/password/forgot").post(forgotPasswordHandler);
 router.route("/password/reset/:token").put(resetPasswordHandler);
 
 router.route("/me").get(isAuthenticatedUser, getUserProfileHandler);
+
+router.route("/password/update").put(isAuthenticatedUser, updatePasswordHandler);
 
 export default router;
