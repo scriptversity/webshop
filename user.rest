@@ -48,3 +48,12 @@ Content-Type: application/json
   "oldPassword": "secret",
   "password": "123456"
 }
+
+### update profile
+PUT http://localhost:4000/api/v1/me/update
+Content-Type: application/json
+
+{
+  "email": "german@gmail.com",
+  "name": "German"
+}
