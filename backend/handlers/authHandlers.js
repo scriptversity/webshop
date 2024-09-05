@@ -160,7 +160,7 @@ export const updatePasswordHandler = catchAsyncErrors(async (req, res, next) => 
   user.password = req.body.password;
   await user.save();
 
-  res.staus(200).json({
+  res.status(200).json({
     success: true,
   })
   // sendToken(user, 200, res);

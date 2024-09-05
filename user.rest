@@ -39,3 +39,12 @@ Content-Type: application/json
 
 ### get user profile
 GET http://localhost:4000/api/v1/me
+
+### update password
+PUT http://localhost:4000/api/v1/password/update
+Content-Type: application/json
+
+{
+  "oldPassword": "secret",
+  "password": "123456"
+}
