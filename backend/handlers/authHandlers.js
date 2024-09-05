@@ -8,8 +8,11 @@ export const registerUserHandler = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
   });
+
+  const token = user.getJWTToken();
   res.status(201).json({
-    success: true,
+    // success: true,
+    token,
     // user,
   });
 })
