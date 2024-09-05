@@ -16,3 +16,6 @@ Content-Type: application/json
   "email": "germann@gmail.com",
   "password": "123456"
 }
+
+### logout user
+GET http://localhost:4000/api/v1/logout
