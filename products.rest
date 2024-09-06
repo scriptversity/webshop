@@ -60,3 +60,6 @@ Content-Type: application/json
 
 ### get all reviews
 GET http://localhost:4000/api/v1/reviews?id=12324244353552514245
+
+### delete a review(admin)
+DELETE http://localhost:4000/api/v1/admin/reviews?productId=12324244353552514245

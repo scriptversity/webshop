@@ -163,17 +163,81 @@ export const createProductReviewHandler = catchAsyncErrors(
 );
 
 // Get product reviews   =>  /api/v1/reviews
-export const getProductReviewsHandler = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.query.id).populate({
-    path: "reviews.user",
-  });
-  // another approach
-  // const product = await Product.findById(req.query.id).populate("reviews.user");
-  if (!product) {
-    return next(new ErrorHandler("Product not found", 404));
+export const getProductReviewsHandler = catchAsyncErrors(
+  async (req, res, next) => {
+    const product = await Product.findById(req.query.id).populate({
+      path: "reviews.user",
+    });
+    // another approach
+    // const product = await Product.findById(req.query.id).populate("reviews.user");
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+    res.status(200).json({
+      // success: true,
+      reviews: product.reviews,
+    });
   }
-  res.status(200).json({
-    // success: true,
-    reviews: product.reviews,
-  });
-});
+);
+
+// Delete product review - Admin   =>  /api/v1/admin/reviews
+export const deleteProductReviewHandler = catchAsyncErrors(
+  async (req, res, next) => {
+    let product = await Product.findById(req.query.productId);
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+
+    // const reviews = product?.reviews?.filter(
+    //   (rev) => rev._id.toString() !== req.query.id.toString()
+    // );
+
+    // const numOfReviews = reviews.length;
+
+    // const ratings =
+    //   numOfReviews === 0
+    //     ? 0
+    //     : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    //       numOfReviews;
+
+    // // another approach(less cool)
+    // // const ratings =
+    // //   product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    // //   reviews.length;
+
+    // product = await Product.findByIdAndUpdate(
+    //   req.query.productId,
+    //   {
+    //     reviews,
+    //     ratings,
+    //     numOfReviews,
+    //   },
+    //   {
+    //     new: true,
+    //     runValidators: true,
+    //     useFindAndModify: false,
+    //   }
+    // );
+
+    // another approach ?
+    product.reviews = product?.reviews?.filter(
+      (rev) => rev._id.toString() !== req?.query?.id.toString()
+    );
+
+    product.numOfReviews = product.reviews.length;
+
+    product.ratings =
+      product.reviews.length === 0
+        ? 0
+        : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+          product.reviews.length;
+
+    await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+      // message: "Review is deleted",
+      product,
+    });
+  }
+);
