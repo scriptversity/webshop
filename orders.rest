@@ -1,5 +1,5 @@
 ### create new order
-POST http://localhost:4000/api/v1//orders/new
+POST http://localhost:4000/api/v1/orders/new
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
   },
   "orderItems": [
     {
-      "name": "CAN USB FD Adapter (GC-CAN-USB-FD)",
+      "name": "CAN USB FD Adapter (GC-CAN-USB-FD) 2",
       "quantity": 2,
       "image": "http://res.cloudinary.com/udemy-courses/image/upload/v1689961785/shopit/products/demo/b9m0ddogmkd8xnypmh1l.jpg",
       "price": "39.99",
@@ -29,3 +29,9 @@ Content-Type: application/json
   "shippingAmount": 5.99,
   "totalAmount": 93.95
 }
+
+### get order details
+GET http://localhost:4000/api/v1/orders/66da470b61f817641fd34da8
+
+### get current user orders
+GET http://localhost:4000/api/v1/me/orders
