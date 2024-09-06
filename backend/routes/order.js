@@ -5,6 +5,7 @@ import {
   myOrdersHandler,
   allOrdersHandler,
   updateOrderHandler,
+  deleteOrderHandler,
 } from "../handlers/orderHandlers.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
@@ -21,6 +22,7 @@ router
 
 router
   .route("/admin/orders/:id")
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateOrderHandler);
+  .put(isAuthenticatedUser, authorizeRoles("admin"), updateOrderHandler)
+  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteOrderHandler);
 
 export default router;

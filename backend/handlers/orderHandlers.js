@@ -117,3 +117,19 @@ export const updateOrderHandler = catchAsyncErrors(async (req, res, next) => {
     order,
   });
 });
+
+// Delete order - Admin  =>  /api/v1/admin/orders/:id
+export const deleteOrderHandler = catchAsyncErrors(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+  if (!order) {
+    return next(
+      new ErrorHandler("Order not found with this ID" + req.params.id, 404)
+    );
+  }
+
+  await order.deleteOne();
+  res.status(200).json({
+    success: true,
+    // message: "Order deleted successfully",
+  });
+});
