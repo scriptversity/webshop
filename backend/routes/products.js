@@ -5,6 +5,7 @@ import {
   getProductDetailsHandler,
   updateProductHandler,
   deleteProductHandler,
+  createProductReviewHandler
 } from "../handlers/productHandlers.js";
 
 import { isAuthenticatedUser, authorizeRoles } from "../middlewares/auth.js";
@@ -26,5 +27,7 @@ router
 router
   .route("/admin/products/:id")
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProductHandler);
+
+router.route("/reviews").post(isAuthenticatedUser, createProductReviewHandler);
 
 export default router;
