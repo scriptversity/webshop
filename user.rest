@@ -13,7 +13,7 @@ POST http://localhost:4000/api/v1/login
 Content-Type: application/json
 
 {
-  "email": "leodan@gmail.com",
+  "email": "german@gmail.com",
   "password": "123456"
 }
 

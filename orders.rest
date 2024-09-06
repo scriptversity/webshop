@@ -35,3 +35,14 @@ GET http://localhost:4000/api/v1/orders/66da470b61f817641fd34da8
 
 ### get current user orders
 GET http://localhost:4000/api/v1/me/orders
+
+### get all orders(admin)
+GET http://localhost:4000/api/v1/admin/orders
+
+### update process order(admin)
+PUT http://localhost:4000/api/v1/admin/orders/66da45634ef1694819da53ec
+Content-Type: application/json
+
+{
+  "staus": "Shipped"
+}
